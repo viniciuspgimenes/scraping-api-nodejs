@@ -1,8 +1,6 @@
 import express, { Request, Response } from 'express';
 import { CryptoController } from "./controllers/crypto.controller";
-import { createConnection } from "typeorm";
 import { AppDataSource } from "./data-source";
-import { CryptoEntity } from "./database/entities/crypto.entity";
 
 class Server {
     private cryptoController: CryptoController;
@@ -20,6 +18,7 @@ class Server {
      */
     private configureServer() {
         this.app.set('port', process.env.PORT || 3000);
+        this.app.use(express.json());
     }
 
     /**
