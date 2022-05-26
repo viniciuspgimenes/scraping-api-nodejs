@@ -1,5 +1,6 @@
 import { DataSource } from "typeorm";
-import { CryptoEntity } from "./database/entities/crypto.entity";
+import { Crypto } from "./database/entities/crypto";
+import { CryptoVariation } from "./database/entities/crypto-variation";
 
 export const AppDataSource = new DataSource({
     type: "postgres",
@@ -10,7 +11,7 @@ export const AppDataSource = new DataSource({
     database: "scraping",
     synchronize: true,
     logging: true,
-    entities: [CryptoEntity],
+    entities: [Crypto, CryptoVariation],
     subscribers: [],
     migrations: [],
 });
