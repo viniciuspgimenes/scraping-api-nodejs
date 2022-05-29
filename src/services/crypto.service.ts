@@ -56,4 +56,15 @@ export class CryptoService {
         }
         return (await CryptoVariationRepository.find({ where: { crypto } }));
     }
+
+    async getAllCryptosWithCurrentValue() {
+        const query = `
+            SELECT DISTINCT ON (c.id) c.id, c.name, c."shortName", cv.value
+            FROM crypto c
+                     JOIN crypto_variation cv
+                          ON c.id = cv."cryptoId"
+            ORDER BY c.id, cv."createdAt" DESC
+        `;
+        return await CryptoRepository.query(query);
+    }
 }
