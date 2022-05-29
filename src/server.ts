@@ -1,50 +1,12 @@
-import express, { Request, Response } from 'express';
-import { CryptoController } from "./controllers/crypto.controller";
+import { HttpServer } from "./http-server";
 import { AppDataSource } from "./data-source";
-
-class Server {
-    private cryptoController: CryptoController;
-    private app: express.Application;
-
-    constructor() {
-        this.app = express();
-        this.configureServer();
-        this.cryptoController = new CryptoController();
-        this.configureRoutes();
-    }
-
-    /**
-     * Method to configure the server.
-     */
-    private configureServer() {
-        this.app.set('port', process.env.PORT || 3000);
-        this.app.use(express.json());
-    }
-
-    /**
-     * Method to configure the routes.
-     */
-    private configureRoutes() {
-        this.app.get('/', (req: Request, res: Response) => {
-            res.send('Hello World');
-        });
-        this.app.use('/api/cryptos', this.cryptoController.router);
-    }
-
-    /**
-     * Method used to start the server
-     */
-    public start() {
-        const port = this.app.get('port');
-        this.app.listen(port, () => {
-            console.log(`Server is listening on port ${port}.`)
-        });
-    }
-}
+import { WebSocketServer } from "./ws-server";
 
 AppDataSource.initialize()
     .then(() => {
-        const server = new Server();
-        server.start();
+        const httpServer = new HttpServer();
+        const server = httpServer.start();
+        const wsServer = new WebSocketServer(server);
+        wsServer.start();
     })
     .catch((error) => console.log(error));
