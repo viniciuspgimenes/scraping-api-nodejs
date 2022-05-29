@@ -7,7 +7,11 @@ export class WebSocketServer {
     public cryptoService: CryptoService;
 
     constructor(server: http.Server) {
-        this.io = new Server(server);
+        this.io = new Server(server, {
+            cors: {
+                origin: '*',
+            }
+        });
         this.cryptoService = new CryptoService();
     }
 

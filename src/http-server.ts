@@ -1,5 +1,6 @@
 import { CryptoController } from "./controllers/crypto.controller";
 import express from "express";
+import cors from "cors";
 import * as http from "http";
 
 export class HttpServer {
@@ -19,6 +20,7 @@ export class HttpServer {
      */
     private configureServer() {
         this.app.use(express.json());
+        this.app.use(cors());
     }
 
     /**
