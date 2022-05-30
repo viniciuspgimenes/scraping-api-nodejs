@@ -35,7 +35,7 @@ export class HttpServer {
      * Method used to start the server
      */
     public start(): http.Server {
-        const port = process.env.HTTP_PORT || 8000;
+        const port = process.env.PORT || 8000;
         this.server.listen(port, () => {
             console.log(`listening on *:${port}`);
         });
